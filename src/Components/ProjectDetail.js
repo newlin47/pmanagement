@@ -11,11 +11,10 @@ import {
 	updateTask,
 } from "../store";
 import TaskDelete from "./TaskDelete";
+import TaskTile from "./TaskTile";
 import CalendarButton from "./CalendarButton";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import Grid from "@mui/material/Grid";
-import DoneGraph from "./DoneGraph";
-import ColumnGraph from "./ColumnGraph";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -356,7 +355,8 @@ const ProjectDetail = () => {
 																					...provided.draggableProps.style,
 																				}}
 																			>
-																				<Grid item>
+																				<TaskTile task={task} />
+																				{/* <Grid item>
 																					<Typography
 																						variant='subtitle1'
 																						sx={{
@@ -432,7 +432,7 @@ const ProjectDetail = () => {
 																							</IconButton>
 																						</Tooltip>
 																					</Grid>
-																				</Grid>
+																				</Grid> */}
 																			</Grid>
 																		);
 																	}}
@@ -638,15 +638,6 @@ const ProjectDetail = () => {
 					</Button>
 				</FormControl>
 			</Drawer>
-			<hr />
-			{log && tasks ? (
-				<div style={{ display: "flex" }}>
-					<DoneGraph log={log} />
-					<ColumnGraph tasks={tasks} projectId={id} />
-				</div>
-			) : (
-				""
-			)}
 			<hr />
 		</div>
 	);
