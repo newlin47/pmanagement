@@ -155,139 +155,139 @@ const TaskGallery = () => {
 		setUserFilter("");
 	};
 
-  return (
-    <Container>
-      <Typography variant="h5" align="center" sx={{ margin: 3 }}>
-        {teams.name} Tasks
-      </Typography>
-      <hr />
-      <Grid
-        container
-        rowSpacing={2}
-        columnSpacing={2}
-        columns={4}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          height: "100px",
-          alignItems: "center",
-        }}
-      >
-        <Grid item>
-          <FormControl size="small" sx={{ m: 1, minWidth: 200 }}>
-            <Select
-              variant="filled"
-              onChange={projectfilterChange}
-              defaultValue={""}
-              value={projectFilter}
-              id={"selectproject"}
-              label={"Project"}
-            >
-              <MenuItem value={""} key={"none"}>
-                <em>None</em>
-              </MenuItem>
-              {_projects.map((project) => {
-                return (
-                  <MenuItem key={project.id} value={project.id}>
-                    {project.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-            <FormHelperText>Filter by project</FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl size="small" sx={{ m: 1, minWidth: 200 }}>
-            <Select
-              variant="filled"
-              onChange={userfilterChange}
-              defaultValue={""}
-              value={userFilter}
-              id={"selectuser"}
-              label={"name"}
-            >
-              <MenuItem value={""} key={"none"}>
-                <em>None</em>
-              </MenuItem>
-              {_users.map((user) => {
-                return (
-                  <MenuItem key={user.id} value={user.id}>
-                    {user.firstName}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-            <FormHelperText>Filter by assigned teammate</FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl size="small" sx={{ m: 1, minWidth: 200 }}>
-            <Select
-              variant="filled"
-              onChange={statusfilterChange}
-              defaultValue={""}
-              value={statusFilter}
-              id={"selectstatus"}
-            >
-              <MenuItem value={""} key={"none"}>
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value="Backlog" key={"Backlog"}>
-                Backlog
-              </MenuItem>
-              <MenuItem value="To Do" key={"To Do"}>
-                To Do
-              </MenuItem>
-              <MenuItem value="In Progress" key={"In Progress"}>
-                In Progress
-              </MenuItem>
-              <MenuItem value="Done" key={"Done"}>
-                Done
-              </MenuItem>
-            </Select>
-            <FormHelperText>Filter by task status</FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            onClick={clearFilters}
-            size="small"
-            sx={{ marginBottom: "1.5rem", height: "55px" }}
-          >
-            Clear
-          </Button>
-        </Grid>
-      </Grid>
-      <Grid
-        container
-        spacing={3}
-        sx={{
-          margin: "1rem",
-          padding: "1rem",
-          overflowY: "scroll",
-          height: "55vh",
-        }}
-      >
-        {_tasks.map((task) => {
-          const project = _projects.find(
-            (project) => project.id === task.projectId
-          );
-          const user = _users.find((user) => user.id === task.userId);
-          return (
-            <TaskCard
-              task={task}
-              project={project}
-              user={user}
-              _users={_users}
-              key={task.id}
-            />
-          );
-        })}
-      </Grid>
-    </Container>
-  );
+	return (
+		<Container>
+			<Typography variant='h5' align='center' sx={{ margin: 3 }}>
+				{teams.name} Tasks
+			</Typography>
+			<hr />
+			<Grid
+				container
+				rowSpacing={2}
+				columnSpacing={2}
+				columns={4}
+				sx={{
+					display: "flex",
+					justifyContent: "center",
+					height: "100px",
+					alignItems: "center",
+				}}
+			>
+				<Grid item>
+					<FormControl size='small' sx={{ m: 1, minWidth: 200 }}>
+						<Select
+							variant='filled'
+							onChange={projectfilterChange}
+							defaultValue={""}
+							value={projectFilter}
+							id={"selectproject"}
+							label={"Project"}
+						>
+							<MenuItem value={""} key={"none"}>
+								<em>None</em>
+							</MenuItem>
+							{_projects.map((project) => {
+								return (
+									<MenuItem key={project.id} value={project.id}>
+										{project.name}
+									</MenuItem>
+								);
+							})}
+						</Select>
+						<FormHelperText>Filter by project</FormHelperText>
+					</FormControl>
+				</Grid>
+				<Grid item>
+					<FormControl size='small' sx={{ m: 1, minWidth: 200 }}>
+						<Select
+							variant='filled'
+							onChange={userfilterChange}
+							defaultValue={""}
+							value={userFilter}
+							id={"selectuser"}
+							label={"name"}
+						>
+							<MenuItem value={""} key={"none"}>
+								<em>None</em>
+							</MenuItem>
+							{_users.map((user) => {
+								return (
+									<MenuItem key={user.id} value={user.id}>
+										{user.firstName}
+									</MenuItem>
+								);
+							})}
+						</Select>
+						<FormHelperText>Filter by assigned teammate</FormHelperText>
+					</FormControl>
+				</Grid>
+				<Grid item>
+					<FormControl size='small' sx={{ m: 1, minWidth: 200 }}>
+						<Select
+							variant='filled'
+							onChange={statusfilterChange}
+							defaultValue={""}
+							value={statusFilter}
+							id={"selectstatus"}
+						>
+							<MenuItem value={""} key={"none"}>
+								<em>None</em>
+							</MenuItem>
+							<MenuItem value='Backlog' key={"Backlog"} sx={{ color: "red" }}>
+								Backlog
+							</MenuItem>
+							<MenuItem value='To Do' key={"To Do"} sx={{ color: "gold" }}>
+								To Do
+							</MenuItem>
+							<MenuItem value='In Progress' key={"In Progress"}>
+								In Progress
+							</MenuItem>
+							<MenuItem value='Done' key={"Done"} sx={{ color: "green" }}>
+								Done
+							</MenuItem>
+						</Select>
+						<FormHelperText>Filter by task status</FormHelperText>
+					</FormControl>
+				</Grid>
+				<Grid item>
+					<Button
+						variant='contained'
+						onClick={clearFilters}
+						size='small'
+						sx={{ marginBottom: "1.5rem", height: "55px" }}
+					>
+						Clear
+					</Button>
+				</Grid>
+			</Grid>
+			<Grid
+				container
+				spacing={3}
+				sx={{
+					margin: "1rem",
+					padding: "1rem",
+					overflowY: "scroll",
+					height: "55vh",
+				}}
+			>
+				{_tasks.map((task) => {
+					const project = _projects.find(
+						(project) => project.id === task.projectId
+					);
+					const user = _users.find((user) => user.id === task.userId);
+					return (
+						<TaskCard
+							task={task}
+							project={project}
+							user={user}
+							_users={_users}
+							key={task.id}
+						/>
+					);
+				})}
+			</Grid>
+		</Container>
+	);
 };
 
 export default TaskGallery;
