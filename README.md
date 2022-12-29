@@ -1,8 +1,22 @@
-- A user should be able to see products
-- A logged in user should be able to
-  - see the items in their cart
-  - add a new product to their cart
-  - remove an item from their cart
-  - create an order
-- A user should be able to see their orders
-- A user should be able to create an account
+Users:
+
+- Create accounts
+- Log in with passwords
+- Join teams
+- Email team members
+
+Projects:
+
+- Create projects
+- Edit projects
+- Delete projects
+- View project details
+- View project metrics
+
+Tasks:
+
+- Create tasks
+- Edit tasks
+- Delete tasks
+- View task details
+- View task metrics
