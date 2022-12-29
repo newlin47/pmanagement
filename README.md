@@ -22,6 +22,6 @@ This application is for managing software development teams. The original code r
 
 ## Key Libraries and Dependencies:
 
-- Front-end: React, Redux, React-Redux, React-Router-Dom, React-Beautiful-DnD, Material UI
-- Back-end: Express, Postgres, Sequelize, Axios
+- Front-end: React, Redux, React-Redux, React-Router-Dom, React-Beautiful-DnD, Material UI, Recharts
+- Back-end: Express, Postgres, Sequelize, Axios, Nodemailer, Bcrypt, JSON Web Token
 - Development: Node.js, Nodemon

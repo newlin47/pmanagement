@@ -2,32 +2,12 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-	createTask,
-	fetchProjects,
-	fetchUsers,
-	fetchTasks,
-	fetchLog,
-	updateTask,
-} from "../store";
+import { fetchProjects, fetchUsers, fetchTasks, fetchLog } from "../store";
 import TaskTile from "./TaskTile";
+import TaskCreate from "./TaskCreate";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormHelperText from "@mui/material/FormHelperText";
 import Typography from "@mui/material/Typography";
-import { Dayjs } from "dayjs";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import axios from "axios";
 
 const ProjectDetail = () => {
@@ -40,16 +20,6 @@ const ProjectDetail = () => {
 	const [progress, setProgress] = useState([]);
 	const [done, setDone] = useState([]);
 	const [columns, setColumns] = useState([]);
-	const [open, setOpen] = useState(false);
-	const [disabled, setDisabled] = useState(true);
-	const [value, setValue] = useState(Dayjs);
-	const [newTask, setNewTask] = useState({
-		name: "",
-		description: "",
-		status: "To Do",
-		projectId: id,
-		teamId: "",
-	});
 
 	useEffect(() => {
 		dispatch(fetchProjects()),
@@ -80,7 +50,6 @@ const ProjectDetail = () => {
 			projectTasks.length
 				? `${
 						(setProject(project),
-						setNewTask({ ...newTask, teamId: project.teamId }),
 						setBacklog(
 							projectTasks.filter((task) => task.status === "Backlog")
 						),
@@ -122,54 +91,6 @@ const ProjectDetail = () => {
 			},
 		});
 	}, [project, tasks]);
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const onChange = (ev) => {
-		newTask.name === "" || newTask.description === ""
-			? setDisabled(true)
-			: setDisabled(false);
-		setNewTask({
-			...newTask,
-			[ev.target.name]: ev.target.value,
-		});
-	};
-
-	const onDeadlineCreate = (date) => {
-		setNewTask({ ...newTask, deadline: date });
-	};
-
-	const createNewTask = () => {
-		dispatch(createTask(newTask));
-		if (newTask.status === "To Do") {
-			setTodo([...todo, newTask]);
-		}
-		if (newTask.status === "Backlog") {
-			setBacklog([...backlog, newTask]);
-		}
-		if (newTask.status === "In Progress") {
-			setProgress([...progress, newTask]);
-		}
-		if (newTask.status === "Done") {
-			setProgress([...done, newTask]);
-		}
-		setColumns({ ...columns });
-		setNewTask({
-			name: "",
-			description: "",
-			status: "To Do",
-			projectId: id,
-			teamId: auth.teamId,
-		});
-		dispatch(fetchTasks());
-		handleClose();
-	};
 
 	const onDragEnd = async (result, columns, setColumns) => {
 		if (!result.destination) return;
@@ -324,102 +245,7 @@ const ProjectDetail = () => {
 										}}
 									</Droppable>
 								</div>
-								<Button variant='contained' onClick={handleClickOpen}>
-									+ Add a task
-								</Button>
-								<Dialog
-									open={open}
-									onClose={handleClose}
-									style={{ display: "flex", flexDirection: "column" }}
-								>
-									<DialogTitle>New Task</DialogTitle>
-									<DialogContent>
-										<DialogContentText>
-											Input task name and description:
-										</DialogContentText>
-										<TextField
-											autoFocus
-											margin='dense'
-											id='name'
-											label='name'
-											name='name'
-											type='text'
-											fullWidth
-											variant='standard'
-											value={newTask.name}
-											onChange={onChange}
-										/>
-										<TextField
-											autoFocus
-											id='desc'
-											label='description'
-											name='description'
-											type='text'
-											fullWidth
-											variant='standard'
-											value={newTask.description}
-											onChange={onChange}
-											margin='dense'
-											multiline
-										/>
-										<Select
-											name='status'
-											value={newTask.status}
-											onChange={onChange}
-											fullWidth
-											label='status'
-										>
-											<MenuItem value={"To Do"}>To Do</MenuItem>
-											<MenuItem value={"In Progress"}>In Progress</MenuItem>
-											<MenuItem value={"Done"}>Done</MenuItem>
-											<MenuItem value={"Backlog"}>Backlog</MenuItem>
-										</Select>
-										<FormHelperText>Status</FormHelperText>
-										<Select
-											name='userId'
-											value={newTask.userId}
-											onChange={onChange}
-											fullWidth
-										>
-											<MenuItem value={null}>none</MenuItem>
-											{users
-												.filter((user) => user.teamId === auth.teamId)
-												.map((teamMem) => {
-													return (
-														<MenuItem value={teamMem.id} key={teamMem.id}>
-															{teamMem.username}
-														</MenuItem>
-													);
-												})}
-										</Select>
-										<FormHelperText>Assign to</FormHelperText>
-										<LocalizationProvider dateAdapter={AdapterDayjs}>
-											<DatePicker
-												value={newTask.deadline || value}
-												onChange={(newValue) => {
-													setValue(newValue);
-													onDeadlineCreate(newValue);
-												}}
-												renderInput={(params) => <TextField {...params} />}
-											/>
-											<Button
-												onClick={() => {
-													setValue(null);
-													setNewTask({ ...newTask, deadline: null });
-												}}
-											>
-												clear date
-											</Button>
-										</LocalizationProvider>
-										<FormHelperText>Deadline</FormHelperText>
-									</DialogContent>
-									<DialogActions>
-										<Button onClick={handleClose}>Cancel</Button>
-										<Button disabled={disabled} onClick={createNewTask}>
-											Create
-										</Button>
-									</DialogActions>
-								</Dialog>
+								<TaskCreate project={project} users={users} auth={auth} />
 							</div>
 						);
 					})}
