@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "webpack",
+		"build": "npm run build",
 		"build:dev": "npm run build -- --watch --mode=development",
 		"start": "node server/index.js",
 		"start:dev": "JWT=Bosho nodemon server/index.js --ignore dist/ --ignore src/ & npm run build:dev"
